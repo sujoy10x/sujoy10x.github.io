@@ -1,0 +1,217 @@
+<!-- /workspaces/sujoy10x.github.io/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tech & Programming Blog — Home</title>
+  <meta name="description" content="Articles about software, programming languages, tools, and best practices.">
+  <meta name="keywords" content="programming, software, development, javascript, python, devops">
+
+  <!-- Social preview -->
+  <meta property="og:title" content="Tech & Programming Blog">
+  <meta property="og:description" content="Articles about software, programming languages, tools, and best practices.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets/og-image.png">
+
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Optional: lightweight syntax highlighting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-/+ZkqL3Vw..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header role="banner" class="site-header container">
+    <div class="branding">
+      <h1 class="site-title"><a href="/">Tech & Programming Blog</a></h1>
+      <p class="site-tagline">Notes, tutorials, and opinion pieces about software development</p>
+    </div>
+
+    <nav role="navigation" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags.html">Tags</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" role="main" class="container">
+    <section aria-label="Featured post" class="featured-post">
+      <article itemscope itemtype="https://schema.org/Article">
+        <a href="/posts/optimizing-nodejs.html" class="featured-link">
+          <img src="/assets/featured-nodejs.jpg" alt="Node.js optimization" class="featured-image">
+          <div class="featured-content">
+            <h2 itemprop="headline">Optimizing Node.js Performance: Practical Tips</h2>
+            <p class="excerpt">Real-world techniques to reduce latency, improve throughput, and profile efficiently.</p>
+            <p class="meta">
+              <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Your Name</span></span>
+              — <time datetime="2025-01-01" itemprop="datePublished">Jan 1, 2025</time>
+            </p>
+          </div>
+        </a>
+      </article>
+    </section>
+
+    <section aria-label="Recent posts" class="posts-list">
+      <h2>Recent posts</h2>
+
+      <ul class="cards">
+        <li>
+          <article itemscope itemtype="https://schema.org/Article" class="post-card">
+            <a href="/posts/intro-to-rust.html">
+              <h3 itemprop="headline">Intro to Rust: Ownership and Borrowing</h3>
+              <p class="excerpt">A concise guide to the ownership model and how it helps write safe, fast code.</p>
+              <p class="meta">Rust — <time datetime="2025-02-10" itemprop="datePublished">Feb 10, 2025</time></p>
+            </a>
+            <p class="tags" aria-hidden="true"><a href="/tags/rust">#rust</a> <a href="/tags/systems">#systems</a></p>
+          </article>
+        </li>
+
+        <li>
+          <article itemscope itemtype="https://schema.org/Article" class="post-card">
+            <a href="/posts/testing-js.html">
+              <h3 itemprop="headline">Testing Strategies for Modern JavaScript</h3>
+              <p class="excerpt">Unit, integration, and E2E testing patterns for reliable web apps.</p>
+              <p class="meta">JavaScript — <time datetime="2025-03-01" itemprop="datePublished">Mar 1, 2025</time></p>
+            </a>
+            <p class="tags" aria-hidden="true"><a href="/tags/javascript">#javascript</a> <a href="/tags/testing">#testing</a></p>
+          </article>
+        </li>
+
+        <!-- More post cards -->
+      </ul>
+
+      <nav aria-label="Pagination" class="pagination">
+        <a href="?page=2" rel="next">Older posts</a>
+      </nav>
+    </section>
+
+    <aside aria-label="Sidebar" class="sidebar">
+      <section>
+        <h3>About the author</h3>
+        <p>Developer, writer, and open source enthusiast. Focus on backend, performance, and language design.</p>
+      </section>
+
+      <section>
+        <h3>Popular tags</h3>
+        <ul class="tag-cloud">
+          <li><a href="/tags/javascript">JavaScript</a></li>
+          <li><a href="/tags/python">Python</a></li>
+          <li><a href="/tags/devops">DevOps</a></li>
+          <li><a href="/tags/rust">Rust</a></li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <footer role="contentinfo" class="site-footer container">
+    <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
+    <nav aria-label="Footer navigation">
+      <ul class="footer-nav">
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="/terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
+
+<!-- /workspaces/sujoy10x.github.io/posts/template.html (single post template) -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Post Title — Tech & Programming Blog</title>
+  <meta name="description" content="Short summary of the post.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Post Title">
+  <meta property="og:description" content="Short summary of the post.">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="container">
+    <h1 class="site-title"><a href="/">Tech & Programming Blog</a></h1>
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/javascript">JavaScript</a></li>
+        <li aria-current="page">Post Title</li>
+      </ol>
+    </nav>
+  </header>
+
+  <main id="content" class="container">
+    <article itemscope itemtype="https://schema.org/Article">
+      <header>
+        <h2 itemprop="headline">Post Title</h2>
+        <p class="meta">
+          <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Your Name</span></span>
+          — <time datetime="2025-04-01" itemprop="datePublished">Apr 1, 2025</time>
+          • <span class="reading-time">6 min read</span>
+        </p>
+      </header>
+
+      <section itemprop="articleBody" class="post-content">
+        <p>Introductory paragraph for the post about a programming topic.</p>
+
+        <h3>Example code</h3>
+        <pre><code class="language-js">// Example JavaScript
+function sum(a, b) {
+  return a + b;
+}
+console.log(sum(2, 3));</code></pre>
+
+        <h3>Conclusion</h3>
+        <p>Wrap up and links to related posts.</p>
+      </section>
+
+      <footer class="post-footer">
+        <p>Tags: <a href="/tags/javascript">#javascript</a>, <a href="/tags/testing">#testing</a></p>
+      </footer>
+    </article>
+  </main>
+
+  <aside class="container" aria-label="Related posts">
+    <h4>Related posts</h4>
+    <ul>
+      <li><a href="/posts/testing-js.html">Testing Strategies for Modern JavaScript</a></li>
+    </ul>
+  </aside>
+
+  <footer class="site-footer container">
+    <p>&copy; <span id="year"></span> Your Name.</p>
+  </footer>
+
+  <!-- Minimal structured data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Post Title",
+    "description": "Short summary of the post.",
+    "author": {"@type":"Person","name":"Your Name"},
+    "datePublished": "2025-04-01",
+    "mainEntityOfPage": {"@type":"WebPage","@id": "https://yourdomain.example/posts/post-slug"}
+  }
+  </script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

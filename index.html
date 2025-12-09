@@ -1,217 +1,823 @@
-<!-- /workspaces/sujoy10x.github.io/index.html -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Tech & Programming Blog — Home</title>
-  <meta name="description" content="Articles about software, programming languages, tools, and best practices.">
-  <meta name="keywords" content="programming, software, development, javascript, python, devops">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechVerse - Modern Technology Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Social preview -->
-  <meta property="og:title" content="Tech & Programming Blog">
-  <meta property="og:description" content="Articles about software, programming languages, tools, and best practices.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="/assets/og-image.png">
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f1f5f9;
+            --gray: #64748b;
+            --accent: #06b6d4;
+        }
 
-  <link rel="icon" href="favicon.ico">
-  <link rel="stylesheet" href="styles.css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
 
-  <!-- Optional: lightweight syntax highlighting -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-/+ZkqL3Vw..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 4rem;
+            transition: transform 0.3s;
+        }
+
+        .featured-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+        }
+
+        .featured-image {
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .featured-content {
+            padding: 2rem;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .featured-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .featured-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .card-image.tech { background: linear-gradient(135deg, var(--primary), var(--secondary)); }
+        .card-image.code { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .card-image.ai { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .card-image.web { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .card-image.mobile { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .card-image.cloud { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+
+        .card-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        /* Categories Section */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-card h3 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .newsletter-form button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255,255,255,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--dark);
+            color: #94a3b8;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">TechVerse</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#articles">Articles</a></li>
+                <li><a href="#categories">Categories</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <header role="banner" class="site-header container">
-    <div class="branding">
-      <h1 class="site-title"><a href="/">Tech & Programming Blog</a></h1>
-      <p class="site-tagline">Notes, tutorials, and opinion pieces about software development</p>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Welcome to TechVerse</h1>
+        <p>Your destination for cutting-edge technology insights, tutorials, and industry trends. Explore the future of tech with us.</p>
+        <div class="hero-buttons">
+            <a href="#articles" class="btn btn-primary">Explore Articles</a>
+            <a href="#newsletter" class="btn btn-outline">Subscribe</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container" id="articles">
+        <!-- Featured Post -->
+        <h2 class="section-title">Featured Article</h2>
+        <div class="featured-post">
+            <div class="featured-image">🚀</div>
+            <div class="featured-content">
+                <div class="post-meta">
+                    <span>📅 December 9, 2025</span>
+                    <span>👤 Tech Editor</span>
+                    <span>⏱️ 8 min read</span>
+                </div>
+                <h2>Understanding Java Architecture: A Complete Guide to JVM, JRE, and JDK</h2>
+                <p>Dive deep into the core components of Java's architecture. Learn how the Java Virtual Machine works, the role of JRE in runtime execution, and how JDK empowers developers to build robust applications. This comprehensive guide covers everything from bytecode compilation to memory management.</p>
+                <div>
+                    <span class="tag">Java</span>
+                    <span class="tag">Architecture</span>
+                    <span class="tag">Programming</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Latest Articles -->
+        <h2 class="section-title">Latest Articles</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="card-image tech">💻</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 8, 2025</span>
+                        <span>⏱️ 5 min</span>
+                    </div>
+                    <h3>Modern Web Development Trends in 2025</h3>
+                    <p>Explore the latest frameworks, tools, and best practices shaping the future of web development.</p>
+                    <span class="tag">Web Dev</span>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-image code">⚡</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 7, 2025</span>
+                        <span>⏱️ 7 min</span>
+                    </div>
+                    <h3>Mastering Python for Data Science</h3>
+                    <p>A comprehensive guide to leveraging Python's powerful libraries for data analysis and machine learning.</p>
+                    <span class="tag">Python</span>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-image ai">🤖</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 6, 2025</span>
+                        <span>⏱️ 6 min</span>
+                    </div>
+                    <h3>AI and Machine Learning Revolution</h3>
+                    <p>Understanding how artificial intelligence is transforming industries and creating new opportunities.</p>
+                    <span class="tag">AI</span>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-image web">🌐</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 5, 2025</span>
+                        <span>⏱️ 5 min</span>
+                    </div>
+                    <h3>Building Scalable APIs with Node.js</h3>
+                    <p>Learn best practices for designing and implementing RESTful APIs that can handle millions of requests.</p>
+                    <span class="tag">Backend</span>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-image mobile">📱</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 4, 2025</span>
+                        <span>⏱️ 6 min</span>
+                    </div>
+                    <h3>Mobile App Development with React Native</h3>
+                    <p>Create beautiful cross-platform mobile applications using React Native and modern JavaScript.</p>
+                    <span class="tag">Mobile</span>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="card-image cloud">☁️</div>
+                <div class="card-content">
+                    <div class="post-meta">
+                        <span>📅 Dec 3, 2025</span>
+                        <span>⏱️ 8 min</span>
+                    </div>
+                    <h3>Cloud Computing: AWS vs Azure vs GCP</h3>
+                    <p>A detailed comparison of the three major cloud platforms and how to choose the right one for your needs.</p>
+                    <span class="tag">Cloud</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories -->
+        <h2 class="section-title" id="categories">Explore Categories</h2>
+        <div class="categories">
+            <div class="category-card">
+                <div class="category-icon">💻</div>
+                <h3>Programming</h3>
+                <p>Code tutorials, best practices, and language guides</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🌐</div>
+                <h3>Web Development</h3>
+                <p>Frontend, backend, and full-stack technologies</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🤖</div>
+                <h3>AI & ML</h3>
+                <p>Artificial intelligence and machine learning insights</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">☁️</div>
+                <h3>Cloud Computing</h3>
+                <p>Cloud platforms, DevOps, and infrastructure</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">📱</div>
+                <h3>Mobile Dev</h3>
+                <p>iOS, Android, and cross-platform development</p>
+            </div>
+            <div class="category-card">
+                <div class="category-icon">🔒</div>
+                <h3>Cybersecurity</h3>
+                <p>Security best practices and threat analysis</p>
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+        <section class="newsletter" id="newsletter">
+            <h2>Stay Updated</h2>
+            <p>Subscribe to our newsletter and get the latest tech articles delivered to your inbox</p>
+            <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit">Subscribe Now</button>
+            </form>
+        </section>
     </div>
 
-    <nav role="navigation" aria-label="Main navigation">
-      <ul class="nav-list">
-        <li><a href="/">Home</a></li>
-        <li><a href="/tags.html">Tags</a></li>
-        <li><a href="/about.html">About</a></li>
-        <li><a href="/contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About TechVerse</h3>
+                <p>Your go-to source for technology news, tutorials, and industry insights. We cover everything from programming to AI, helping developers and tech enthusiasts stay ahead.</p>
+                <div class="social-links">
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="GitHub">🐙</a>
+                    <a href="#" title="YouTube">📺</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#articles">Articles</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Categories</h3>
+                <ul>
+                    <li><a href="#">Programming</a></li>
+                    <li><a href="#">Web Development</a></li>
+                    <li><a href="#">AI & Machine Learning</a></li>
+                    <li><a href="#">Cloud Computing</a></li>
+                    <li><a href="#">Cybersecurity</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 info@techverse.blog</li>
+                    <li>📱 +1 (555) 123-4567</li>
+                    <li>📍 San Francisco, CA</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 TechVerse. All rights reserved. Built with passion for technology.</p>
+        </div>
+    </footer>
 
-  <main id="main" role="main" class="container">
-    <section aria-label="Featured post" class="featured-post">
-      <article itemscope itemtype="https://schema.org/Article">
-        <a href="/posts/optimizing-nodejs.html" class="featured-link">
-          <img src="/assets/featured-nodejs.jpg" alt="Node.js optimization" class="featured-image">
-          <div class="featured-content">
-            <h2 itemprop="headline">Optimizing Node.js Performance: Practical Tips</h2>
-            <p class="excerpt">Real-world techniques to reduce latency, improve throughput, and profile efficiently.</p>
-            <p class="meta">
-              <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Your Name</span></span>
-              — <time datetime="2025-01-01" itemprop="datePublished">Jan 1, 2025</time>
-            </p>
-          </div>
-        </a>
-      </article>
-    </section>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-    <section aria-label="Recent posts" class="posts-list">
-      <h2>Recent posts</h2>
+        // Newsletter subscription handler
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input').value;
+            const button = e.target.querySelector('button');
+            const originalText = button.textContent;
+            
+            button.innerHTML = '<span class="loading"></span>';
+            button.disabled = true;
+            
+            // Simulate subscription
+            setTimeout(() => {
+                alert(`Thank you for subscribing! Welcome to TechVerse, ${email}`);
+                button.textContent = originalText;
+                button.disabled = false;
+                e.target.reset();
+            }, 1500);
+        }
 
-      <ul class="cards">
-        <li>
-          <article itemscope itemtype="https://schema.org/Article" class="post-card">
-            <a href="/posts/intro-to-rust.html">
-              <h3 itemprop="headline">Intro to Rust: Ownership and Borrowing</h3>
-              <p class="excerpt">A concise guide to the ownership model and how it helps write safe, fast code.</p>
-              <p class="meta">Rust — <time datetime="2025-02-10" itemprop="datePublished">Feb 10, 2025</time></p>
-            </a>
-            <p class="tags" aria-hidden="true"><a href="/tags/rust">#rust</a> <a href="/tags/systems">#systems</a></p>
-          </article>
-        </li>
+        // Add scroll animation for elements
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        <li>
-          <article itemscope itemtype="https://schema.org/Article" class="post-card">
-            <a href="/posts/testing-js.html">
-              <h3 itemprop="headline">Testing Strategies for Modern JavaScript</h3>
-              <p class="excerpt">Unit, integration, and E2E testing patterns for reliable web apps.</p>
-              <p class="meta">JavaScript — <time datetime="2025-03-01" itemprop="datePublished">Mar 1, 2025</time></p>
-            </a>
-            <p class="tags" aria-hidden="true"><a href="/tags/javascript">#javascript</a> <a href="/tags/testing">#testing</a></p>
-          </article>
-        </li>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-        <!-- More post cards -->
-      </ul>
+        // Observe all blog cards and category cards
+        document.querySelectorAll('.blog-card, .category-card, .featured-post').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
 
-      <nav aria-label="Pagination" class="pagination">
-        <a href="?page=2" rel="next">Older posts</a>
-      </nav>
-    </section>
+        // Active navigation link
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section[id]').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-    <aside aria-label="Sidebar" class="sidebar">
-      <section>
-        <h3>About the author</h3>
-        <p>Developer, writer, and open source enthusiast. Focus on backend, performance, and language design.</p>
-      </section>
-
-      <section>
-        <h3>Popular tags</h3>
-        <ul class="tag-cloud">
-          <li><a href="/tags/javascript">JavaScript</a></li>
-          <li><a href="/tags/python">Python</a></li>
-          <li><a href="/tags/devops">DevOps</a></li>
-          <li><a href="/tags/rust">Rust</a></li>
-        </ul>
-      </section>
-    </aside>
-  </main>
-
-  <footer role="contentinfo" class="site-footer container">
-    <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
-    <nav aria-label="Footer navigation">
-      <ul class="footer-nav">
-        <li><a href="/privacy.html">Privacy</a></li>
-        <li><a href="/terms.html">Terms</a></li>
-      </ul>
-    </nav>
-  </footer>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-</body>
-</html>
-
-<!-- /workspaces/sujoy10x.github.io/posts/template.html (single post template) -->
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Post Title — Tech & Programming Blog</title>
-  <meta name="description" content="Short summary of the post.">
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Post Title">
-  <meta property="og:description" content="Short summary of the post.">
-</head>
-<body>
-  <a class="skip-link" href="#content">Skip to content</a>
-
-  <header class="container">
-    <h1 class="site-title"><a href="/">Tech & Programming Blog</a></h1>
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumb">
-        <li><a href="/">Home</a></li>
-        <li><a href="/tags/javascript">JavaScript</a></li>
-        <li aria-current="page">Post Title</li>
-      </ol>
-    </nav>
-  </header>
-
-  <main id="content" class="container">
-    <article itemscope itemtype="https://schema.org/Article">
-      <header>
-        <h2 itemprop="headline">Post Title</h2>
-        <p class="meta">
-          <span itemprop="author" itemscope itemtype="https://schema.org/Person"><span itemprop="name">Your Name</span></span>
-          — <time datetime="2025-04-01" itemprop="datePublished">Apr 1, 2025</time>
-          • <span class="reading-time">6 min read</span>
-        </p>
-      </header>
-
-      <section itemprop="articleBody" class="post-content">
-        <p>Introductory paragraph for the post about a programming topic.</p>
-
-        <h3>Example code</h3>
-        <pre><code class="language-js">// Example JavaScript
-function sum(a, b) {
-  return a + b;
-}
-console.log(sum(2, 3));</code></pre>
-
-        <h3>Conclusion</h3>
-        <p>Wrap up and links to related posts.</p>
-      </section>
-
-      <footer class="post-footer">
-        <p>Tags: <a href="/tags/javascript">#javascript</a>, <a href="/tags/testing">#testing</a></p>
-      </footer>
-    </article>
-  </main>
-
-  <aside class="container" aria-label="Related posts">
-    <h4>Related posts</h4>
-    <ul>
-      <li><a href="/posts/testing-js.html">Testing Strategies for Modern JavaScript</a></li>
-    </ul>
-  </aside>
-
-  <footer class="site-footer container">
-    <p>&copy; <span id="year"></span> Your Name.</p>
-  </footer>
-
-  <!-- Minimal structured data for SEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    "headline": "Post Title",
-    "description": "Short summary of the post.",
-    "author": {"@type":"Person","name":"Your Name"},
-    "datePublished": "2025-04-01",
-    "mainEntityOfPage": {"@type":"WebPage","@id": "https://yourdomain.example/posts/post-slug"}
-  }
-  </script>
-
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

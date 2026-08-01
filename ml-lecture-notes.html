@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction to Machine Learning — Complete Notes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+:root{
+  --paper:#F4F7F5;
+  --paper-deep:#EAF0EF;
+  --grid-line:#D2E0E1;
+  --ink:#16212B;
+  --ink-soft:#51636C;
+  --ink-faint:#8C9CA3;
+  --accent:#2E6E8E;
+  --accent-deep:#1E4F68;
+  --accent-warm:#C4831C;
+  --success:#3F8F6E;
+  --code-bg:#101820;
+  --code-ink:#E7EEF0;
+  --code-accent:#7FC8E0;
+  --radius:10px;
+  --maxw:820px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-attachment: fixed;
+}
+
+::selection{background:var(--accent); color:var(--paper);}
+a{color:var(--accent);}
+
+/* ---------- Layout shell ---------- */
+.shell{ display:grid; grid-template-columns: 270px 1fr; min-height:100vh; }
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  position:sticky; top:0; height:100vh; overflow-y:auto;
+  padding: 28px 18px 40px;
+  border-right: 1px solid var(--grid-line);
+  background: rgba(244,247,245,0.9);
+  backdrop-filter: blur(4px);
+}
+.brand{ font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:0.95rem; color:var(--ink); margin-bottom:4px;}
+.brand span{color:var(--accent);}
+.brand-sub{ font-family:'IBM Plex Mono', monospace; font-size:0.7rem; color:var(--ink-faint); margin-bottom:24px;}
+.navlist{list-style:none; margin:0; padding:0;}
+.navlist li{margin-bottom:1px;}
+.navlist a{
+  display:flex; gap:9px; align-items:baseline; text-decoration:none;
+  color:var(--ink-soft); font-size:0.82rem; padding:6px 9px; border-radius:6px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.navlist a .tag{ font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--ink-faint); min-width:20px;}
+.navlist a:hover{ background:var(--paper-deep); color:var(--ink); }
+.navlist a.active{ background:var(--accent); color:var(--paper); }
+.navlist a.active .tag{ color:var(--paper); opacity:0.75; }
+.sidebar-foot{
+  margin-top:24px; padding-top:14px; border-top:1px solid var(--grid-line);
+  font-family:'IBM Plex Mono', monospace; font-size:0.68rem; color:var(--ink-faint); line-height:1.6;
+}
+
+.nav-toggle{
+  display:none; position:fixed; top:16px; left:16px; z-index:50;
+  background:var(--ink); color:var(--paper); border:none; border-radius:8px;
+  width:42px; height:42px; font-family:'IBM Plex Mono', monospace; font-size:1.1rem; cursor:pointer;
+}
+
+/* ---------- Main ---------- */
+main{ min-width:0; }
+
+.hero{ padding: 78px 48px 50px; max-width: 980px; }
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:0.14em; text-transform:uppercase;
+  color:var(--accent-deep); display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{ content:""; width:22px; height:1px; background:var(--accent-deep); display:inline-block;}
+h1.hero-title{
+  font-family:'IBM Plex Mono', monospace; font-weight:700; font-size:clamp(2rem, 4.6vw, 3rem);
+  line-height:1.14; margin:0 0 18px; color:var(--ink);
+}
+h1.hero-title em{ font-style:normal; color:var(--accent); border-bottom: 3px solid var(--accent-warm);}
+.hero-sub{ font-size:1.05rem; color:var(--ink-soft); max-width:620px; margin-bottom:20px;}
+.hero-meta{
+  display:flex; gap:22px; flex-wrap:wrap; margin-top:6px;
+  font-family:'IBM Plex Mono', monospace; font-size:0.76rem; color:var(--ink-faint);
+}
+
+section.part{ padding: 8px 48px 26px; max-width: var(--maxw); scroll-margin-top: 24px; }
+section.part.wide{ max-width:980px; }
+
+.part-eyebrow{
+  font-family:'IBM Plex Mono', monospace; font-size:0.74rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent-deep); margin-bottom:9px;
+}
+h2.part-title{
+  font-family:'IBM Plex Mono', monospace; font-size:1.55rem; font-weight:700; margin: 0 0 8px; color:var(--ink);
+  padding-bottom:12px; border-bottom:2px solid var(--ink);
+}
+.part-question{ font-size:1rem; color:var(--ink-soft); margin: 12px 0 22px; }
+
+h3.setup-title{
+  font-family:'IBM Plex Mono', monospace; font-size:0.9rem; color:var(--ink-soft); margin:26px 0 8px;
+  text-transform:uppercase; letter-spacing:0.06em;
+}
+h4.sub-title{ font-size:1rem; font-weight:600; color:var(--ink); margin:20px 0 8px; }
+
+p{ margin:0 0 14px; }
+
+/* concept callouts */
+.idea{
+  border-left:3px solid var(--accent-warm); background: rgba(196,131,28,0.07);
+  border-radius: 0 8px 8px 0; padding: 15px 20px; margin: 18px 0 24px;
+}
+.idea.success{ border-left-color:var(--success); background: rgba(63,143,110,0.08); }
+.idea.blue{ border-left-color:var(--accent); background: rgba(46,110,142,0.07); }
+.idea .idea-label{
+  font-family:'IBM Plex Mono', monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--accent-warm); margin-bottom:7px; font-weight:600;
+}
+.idea.success .idea-label{ color:var(--success); }
+.idea.blue .idea-label{ color:var(--accent-deep); }
+.idea p{margin:0 0 8px;}
+.idea p:last-child{margin-bottom:0;}
+
+code.inline{
+  font-family:'IBM Plex Mono', monospace; background: var(--paper-deep); border:1px solid var(--grid-line);
+  padding: 1px 6px; border-radius:5px; font-size:0.88em; color:var(--accent-deep);
+}
+
+.formula{
+  font-family:'IBM Plex Mono', monospace; background: var(--ink); color: var(--paper);
+  padding: 12px 18px; border-radius: 8px; display:block; margin: 10px 0 18px; font-size:0.88rem;
+  white-space:pre-wrap; line-height:1.7;
+}
+
+/* compare pair */
+.compare{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin: 16px 0 18px; }
+.compare .box{ border:1px solid var(--grid-line); border-radius:8px; padding:14px 16px; background: var(--paper-deep); }
+.compare .box h5{ margin:0 0 6px; font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--accent-deep);}
+.compare .box p{margin:0; font-size:0.87rem; color:var(--ink-soft);}
+.compare.three{ grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width:700px){ .compare, .compare.three{grid-template-columns:1fr;} }
+
+.divider{ height:1px; background: var(--grid-line); margin: 40px 48px; max-width: var(--maxw); }
+
+/* generic table */
+.ref-wrap{ overflow-x:auto; margin: 14px 0 22px; }
+table.ref{ width:100%; border-collapse:collapse; font-size:0.88rem; min-width:520px; }
+table.ref th{
+  background:var(--ink); color:var(--paper); text-align:left; padding:10px 13px;
+  font-family:'IBM Plex Mono', monospace; font-weight:600; font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase;
+}
+table.ref td{ padding:10px 13px; border-bottom:1px solid var(--grid-line); vertical-align:top; }
+table.ref tr:nth-child(even) td{ background: var(--paper-deep); }
+table.ref td:first-child{ font-family:'IBM Plex Mono', monospace; color:var(--accent-deep); font-weight:600; }
+
+/* numbered analogy block */
+.story{
+  display:grid; grid-template-columns: 44px 1fr; gap:0 14px; margin: 20px 0;
+  border:1px solid var(--grid-line); border-radius: var(--radius); padding:16px 18px; background:var(--paper-deep);
+}
+.story .story-icon{ font-size:1.5rem; padding-top:2px; }
+.story h5{ margin:0 0 6px; font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--accent-deep); text-transform:uppercase; letter-spacing:0.04em;}
+.story p{ margin:0; font-size:0.92rem; color:var(--ink); }
+.story p + p{ margin-top:8px; }
+
+/* case study step */
+.step{ display:grid; grid-template-columns: 30px 1fr; gap:0 14px; margin: 18px 0; }
+.step .step-num{
+  font-family:'IBM Plex Mono', monospace; font-weight:700; color:var(--paper); background:var(--accent);
+  width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:0.78rem;
+}
+.step h4{ margin:0 0 6px; font-size:1rem; font-weight:600; color:var(--ink); }
+.step p{ margin:0; font-size:0.93rem; color:var(--ink-soft); }
+
+ul.tidy, ol.tidy{ margin:0 0 16px; padding-left:22px; }
+ul.tidy li, ol.tidy li{ margin-bottom:6px; font-size:0.95rem; }
+
+.closing{ padding: 8px 48px 90px; max-width: var(--maxw); }
+.closing .idea{ border-left-color:var(--success); background: rgba(63,143,110,0.08); }
+.closing .idea .idea-label{ color:var(--success); }
+
+footer{
+  padding: 28px 48px 60px; font-family:'IBM Plex Mono', monospace; font-size:0.74rem; color:var(--ink-faint);
+  max-width: var(--maxw);
+}
+
+.fade-in{ opacity:0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible{ opacity:1; transform:none; }
+
+@media (max-width: 900px){
+  .shell{ grid-template-columns: 1fr; }
+  .sidebar{
+    position:fixed; left:0; top:0; width:270px; transform: translateX(-100%);
+    transition: transform 0.25s ease; z-index:40; box-shadow: 8px 0 24px rgba(0,0,0,0.15);
+  }
+  .sidebar.open{ transform:translateX(0); }
+  .nav-toggle{ display:block; }
+  .hero{ padding: 88px 22px 36px; }
+  section.part{ padding: 6px 22px 22px; }
+  .divider{ margin: 34px 22px; }
+  .closing{ padding: 6px 22px 70px; }
+  footer{ padding: 22px 22px 50px; }
+  .story{ grid-template-columns: 1fr; }
+  .step{ grid-template-columns: 1fr; }
+}
+
+.overlay{ display:none; position:fixed; inset:0; background: rgba(16,24,32,0.35); z-index:35; }
+.overlay.show{ display:block; }
+</style>
+</head>
+<body>
+
+<button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">≡</button>
+<div class="overlay" id="overlay"></div>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar">
+    <div class="brand">intro<span>.to_ml()</span></div>
+    <div class="brand-sub">complete lecture notes</div>
+    <ul class="navlist" id="navlist">
+      <li><a href="#why-ai"><span class="tag">01</span>Why AI Matters</a></li>
+      <li><a href="#data-shapes"><span class="tag">02</span>Shapes of Data</a></li>
+      <li><a href="#why-now"><span class="tag">03</span>Why AI Now</a></li>
+      <li><a href="#rules-vs-data"><span class="tag">04</span>Rules vs. Data</a></li>
+      <li><a href="#neural-network"><span class="tag">05</span>Neural Networks</a></li>
+      <li><a href="#recipe"><span class="tag">06</span>The 4-Step Recipe</a></li>
+      <li><a href="#loss"><span class="tag">07</span>Loss Functions</a></li>
+      <li><a href="#gradient"><span class="tag">08</span>Gradient Descent</a></li>
+      <li><a href="#data-challenges"><span class="tag">09</span>Data Challenges</a></li>
+      <li><a href="#model-challenges"><span class="tag">10</span>Model Challenges</a></li>
+      <li><a href="#evaluation"><span class="tag">11</span>Evaluating Models</a></li>
+      <li><a href="#flavors"><span class="tag">12</span>3 Flavors of ML</a></li>
+      <li><a href="#case-study"><span class="tag">13</span>Case Study</a></li>
+      <li><a href="#glossary"><span class="tag">14</span>Glossary</a></li>
+      <li><a href="#takeaways"><span class="tag">15</span>Key Takeaways</a></li>
+    </ul>
+    <div class="sidebar-foot">
+      IIT Kharagpur × upGrad<br>Reorganized for clarity
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Lecture Notes — Reorganized</div>
+      <h1 class="hero-title">From a live lecture<br>to something you can <em>actually study.</em></h1>
+      <p class="hero-sub">A 4-hour introductory ML lecture, untangled from its live Q&amp;A and technical hiccups, and reorganized topic-by-topic — every analogy and case study kept, explained from complete beginner to working understanding.</p>
+      <div class="hero-meta">
+        <span>15 sections</span>
+        <span>·</span>
+        <span>1 hands-on case study</span>
+        <span>·</span>
+        <span>0 assumed prior knowledge</span>
+      </div>
+    </section>
+
+    <!-- 01 -->
+    <section class="part fade-in" id="why-ai">
+      <div class="part-eyebrow">Section 01</div>
+      <h2 class="part-title">Why AI Matters</h2>
+      <p class="part-question">Before any math — where does this stuff actually get used?</p>
+      <p>AI already sits inside almost every industry. A few examples from the lecture:</p>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Industry</th><th>What AI does</th><th>Why it's needed</th></tr></thead>
+          <tbody>
+            <tr><td>Manufacturing</td><td>Robotic assembly lines</td><td>Humans can't sustain large-scale production alone</td></tr>
+            <tr><td>Agriculture</td><td>Drones analyze crops, spray pesticide only where needed</td><td>Cuts pesticide overuse — better cost and food quality</td></tr>
+            <tr><td>Healthcare</td><td>Smartwatches flag health emergencies</td><td>Continuous monitoring no human can do manually</td></tr>
+            <tr><td>Banking</td><td>Loan approval via a learned decision tree</td><td>Learned from years of real approval data, not hand-written rules</td></tr>
+            <tr><td>Mental health</td><td>Depression classification from diverse data</td><td>No fixed symptom checklist — patterns vary hugely person to person</td></tr>
+            <tr><td>Streaming</td><td>Personalized recommendations</td><td>Learned from what and how long you actually watch</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="idea">
+        <div class="idea-label">The takeaway</div>
+        <p>AI isn't one thing — it's a general-purpose <em>approach</em> reused across totally different problems, because underneath, they all share the same skeleton: <strong>data → model → prediction.</strong></p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 02 -->
+    <section class="part wide fade-in" id="data-shapes">
+      <div class="part-eyebrow">Section 02</div>
+      <h2 class="part-title">The Many "Shapes" of Data</h2>
+      <p class="part-question">Before building any model, what kind of data are you even feeding it?</p>
+
+      <h4 class="sub-title">Time series — 1 dimension</h4>
+      <p>A single number changing along one axis — usually time, but not always. Heart rate over time, inflation over years, wind speed by season — even windmill height vs. power output counts, since it's one quantity changing along one axis.</p>
+      <div class="story">
+        <div class="story-icon">📈</div>
+        <div>
+          <h5>Case study — predicting ESG scores</h5>
+          <p>A part-time PhD student (also a full-time company director) used language models to track a company's ESG score (Environmental, Social, Governance) over time as a time series — work that got accepted at ICML, a top ML conference. The lesson: a full-time job didn't stop world-class research.</p>
+        </div>
+      </div>
+
+      <h4 class="sub-title">Grayscale images — 2 dimensions</h4>
+      <p>A computer never "sees" a photo the way you do — it sees a grid of numbers. <code class="inline">0</code> = pure black, <code class="inline">255</code> = pure white, everything between is a shade of gray. A grayscale image is just a 2D matrix of these numbers.</p>
+      <div class="story">
+        <div class="story-icon">🔬</div>
+        <div>
+          <h5>Case study — chip defect detection</h5>
+          <p>Scanning electron microscopes photograph microscopic computer chips to check for defects — images come out grayscale and noisy. The model denoises them so real defects become visible instead of hidden in noise, enabling reliable pass/fail checks.</p>
+        </div>
+      </div>
+
+      <h4 class="sub-title">Color images — 3 dimensions</h4>
+      <p>A color image is just three grayscale images stacked together — one each for Red, Green, and Blue. Mixing intensities produces every color: <code class="inline">(255,0,0)</code> = red, <code class="inline">(0,0,0)</code> = black, <code class="inline">(255,255,255)</code> = white.</p>
+      <div class="story">
+        <div class="story-icon">🚗</div>
+        <div>
+          <h5>Case study — autonomous driving</h5>
+          <p>Moving cars capture blurry frames. Tasks like semantic segmentation (coloring pixels by what they represent) and object detection both perform worse on blurry input — so a deblurring model sharpens frames <em>before</em> detection happens, directly improving the safety pipeline.</p>
+        </div>
+      </div>
+
+      <h4 class="sub-title">Grayscale &amp; color video — 3 &amp; 4 dimensions</h4>
+      <p>Video = many still frames played back-to-back. "30 frames per second" means 30 images shown every second — fast enough that your eyes perceive continuous motion. <strong>Grayscale video</strong> = 2D image + 1D time = 3D. <strong>Color video</strong> = 3D color image + 1D time = 4D.</p>
+      <div class="compare">
+        <div class="box">
+          <h5>Submarine periscopes (DRDO)</h5>
+          <p>A rotating infrared camera captures blurry footage due to gimbal motion. The model converts blurry video into clean video for reliable analysis.</p>
+        </div>
+        <div class="box">
+          <h5>Pig health monitoring (UIUC)</h5>
+          <p>Cameras track individual pigs' activity over time. Unusually inactive pigs get flagged early for quarantine, before disease spreads through the pen.</p>
+        </div>
+      </div>
+
+      <h3 class="setup-title">Quick reference</h3>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Data type</th><th>Dimensions</th><th>Formula</th></tr></thead>
+          <tbody>
+            <tr><td>Time series</td><td>1D</td><td>one changing quantity</td></tr>
+            <tr><td>Grayscale image</td><td>2D</td><td>height × width</td></tr>
+            <tr><td>Color image</td><td>3D</td><td>height × width × 3 (RGB)</td></tr>
+            <tr><td>Grayscale video</td><td>3D</td><td>height × width × time</td></tr>
+            <tr><td>Color video</td><td>4D</td><td>height × width × 3 × time</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="idea blue">
+        <div class="idea-label">Beginner takeaway</div>
+        <p>Before choosing a model, always ask "what shape is my data?" — it instantly narrows which model families are even sensible to try. This idea returns later as <strong>inductive bias</strong> (Section 10).</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 03 -->
+    <section class="part fade-in" id="why-now">
+      <div class="part-eyebrow">Section 03</div>
+      <h2 class="part-title">Why AI "Suddenly" Got Good</h2>
+      <p class="part-question">Most of this math existed before 1990. So why the boom around 2010–2015?</p>
+      <p>Two ingredients were missing for decades:</p>
+      <div class="compare">
+        <div class="box">
+          <h5>1. Not enough data</h5>
+          <p>Before digital devices, data was stored on punch cards / paper rolls, read manually. Nowhere near enough labeled data existed to learn from.</p>
+        </div>
+        <div class="box">
+          <h5>2. Not enough compute</h5>
+          <p>Early computers used bulky, failure-prone vacuum tubes — a single "computer" needed a whole room. Today's equivalent fits in your pocket.</p>
+        </div>
+      </div>
+      <p>What changed: every person online now constantly generates data — YouTube views, searches, photos, IoT sensors, digitized medical scans. At global scale, this becomes an enormous resource. Meanwhile, <strong>GPUs</strong> made it possible to actually process that much data.</p>
+      <div class="idea">
+        <div class="idea-label">CPU vs. GPU, in one line</div>
+        <p>A CPU might run 16 things in parallel; a GPU runs <em>thousands</em>. Processing 1 million images could take months on a CPU — a GPU does it in a fraction of the time. Like the difference between 16 teachers grading exams versus 10,000 teachers grading simultaneously.</p>
+      </div>
+      <p><strong>Beginner takeaway:</strong> AI = (long-known math) + (big data, only recently available) + (GPUs, which made that data usable). None of the three alone was enough.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 04 -->
+    <section class="part fade-in" id="rules-vs-data">
+      <div class="part-eyebrow">Section 04</div>
+      <h2 class="part-title">The Central Problem: When Rules Don't Work</h2>
+      <p class="part-question">The philosophical heart of the whole lecture, taught through a live classroom exercise.</p>
+
+      <h4 class="sub-title">The postal code case study</h4>
+      <p>A post office needs to sort mail automatically: a camera photographs each handwritten digit, and the system must classify it 0–9. The class was asked to write <strong>rules</strong> (no AI — just logic) to recognize the digit "2." Suggestions included: "a semicircle joined to a horizontal line," "a curved top with a straight bottom line," "should not contain a complete circle."</p>
+      <p><strong>The catch:</strong> for every rule proposed, a real handwritten "2" broke it — no semicircle, no horizontal line, loops, sharp angles. No two people write digits identically.</p>
+
+      <div class="idea">
+        <div class="idea-label">The lesson</div>
+        <p>If a problem has a clean, provable relationship (like force = mass × acceleration), use rules. If a problem is <em>impossible</em> to fully capture with hand-written rules — because of too much natural variation — use a data-driven approach instead.</p>
+      </div>
+
+      <h4 class="sub-title">What ML does differently</h4>
+      <ol class="tidy">
+        <li>Collect <strong>many labeled examples</strong> of each digit (thousands of images labeled "this is a 2")</li>
+        <li>Let an algorithm find the <strong>common pattern</strong> across all of them automatically — a pattern too complex and varied for a human to write down explicitly</li>
+      </ol>
+      <p>This is why ML is also called <strong>pattern recognition</strong> (finding what separates categories), <strong>knowledge distillation</strong> (extracting essential knowledge from a huge pile of data), or <strong>data mining</strong> (extracting precious ore from raw rock) — same idea, different names.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 05 -->
+    <section class="part fade-in" id="neural-network">
+      <div class="part-eyebrow">Section 05</div>
+      <h2 class="part-title">What Is a Neural Network, Really?</h2>
+      <div class="story">
+        <div class="story-icon">🧒</div>
+        <div>
+          <h5>The toddler analogy</h5>
+          <p>Teaching a toddler "yellow": the kid picks up a yellow block, says "yellow" — mother says "Good job!" The kid picks up green, says "yellow" — mother says "No, that's not yellow." Repeated correction, over and over, until the kid reliably recognizes yellow.</p>
+          <p><strong>The mother = the supervisor.</strong> Try → get corrected → adjust. This is exactly <strong>supervised learning.</strong></p>
+        </div>
+      </div>
+      <p>Computers don't have brain chemistry — they have <strong>numbers</strong>. So instead of a toddler's brain adjusting chemical connections, a computer model adjusts <strong>numerical parameters ("weights")</strong> until its output reliably matches the correct answer. That's "training a neural network" in one sentence.</p>
+      <p><strong>Why "neural":</strong> the brain is made of connected neurons. An <strong>artificial neural network</strong> borrows the concept — many small connected units, each holding a number that gets adjusted during training.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 06 -->
+    <section class="part fade-in" id="recipe">
+      <div class="part-eyebrow">Section 06</div>
+      <h2 class="part-title">The 4-Step Recipe</h2>
+      <p class="part-question">The same four steps behind everything from simple linear regression to ChatGPT.</p>
+      <div class="formula">1. Collect a labeled dataset
+2. Design a machine learning model   (choose the function "shape")
+3. Define a loss function             (how do we measure "wrong"?)
+4. Optimize the weights               (make the model less wrong, repeatedly)</div>
+      <p>Every model is expressed as:</p>
+      <div class="formula">Y = F(X, W)</div>
+      <p><code class="inline">X</code> = input · <code class="inline">W</code> = learnable weights (the "knowledge") · <code class="inline">F</code> = the model's shape (linear regression, CNN, Transformer…) · <code class="inline">Y</code> = predicted output.</p>
+      <p>Training = finding the best <code class="inline">W</code>. Once <code class="inline">W</code> is frozen, the training data can be discarded — the model is now a standalone deployable tool.</p>
+
+      <h4 class="sub-title">Step 1 — Collecting labeled data, in practice</h4>
+      <ul class="tidy">
+        <li><strong>Manual labeling</strong> — you're the domain expert on your own data</li>
+        <li><strong>Public datasets</strong> — Kaggle, Hugging Face, and similar platforms</li>
+        <li><strong>Outsourced labeling</strong> — services like Amazon Mechanical Turk</li>
+      </ul>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 07 -->
+    <section class="part fade-in" id="loss">
+      <div class="part-eyebrow">Section 07</div>
+      <h2 class="part-title">Loss Functions</h2>
+      <p class="part-question">Teaching the computer "right" vs. "wrong."</p>
+      <p>A loss function is the computer's version of the mother saying "good job" or "no, try again" — a single number describing how wrong a prediction is. <strong>Low loss</strong> = doing well, <strong>high loss</strong> = doing badly. Training = adjusting weights until loss shrinks.</p>
+
+      <h4 class="sub-title">Classification — Cross-Entropy Loss</h4>
+      <p>The model outputs a probability per class, summing to 1. True label: dog. Case 1 predicted dog at 0.775 → loss = 0.367. Case 2 predicted dog with higher confidence → loss = 0.095. Lower is better — Case 2 wins.</p>
+      <div class="idea blue">
+        <div class="idea-label">Intuition</div>
+        <p>Cross-entropy punishes confident <em>wrong</em> answers heavily, and rewards confident correct ones. 99% sure it's a dog, and it is → almost zero loss. 99% sure it's a cat, but it's a dog → punished hard.</p>
+      </div>
+
+      <h4 class="sub-title">Regression — Mean Squared Error (MSE)</h4>
+      <p>For continuous outputs (price, temperature). Traffic cameras capture blurry violation photos; a model is trained on (blurry, clean) image pairs to sharpen future captures.</p>
+      <div class="formula">MSE = mean( (prediction − target)² )</div>
+      <p>Subtract element-by-element, square (removes negative signs, punishes big errors more), then average.</p>
+
+      <h3 class="setup-title">Classification vs. Regression</h3>
+      <div class="compare">
+        <div class="box"><h5>Classification</h5><p>Discrete categories — hot/cold, spam/not-spam, digit 0–9</p></div>
+        <div class="box"><h5>Regression</h5><p>Continuous numbers — "feels like 29.5°C," house price, stock price</p></div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 08 -->
+    <section class="part fade-in" id="gradient">
+      <div class="part-eyebrow">Section 08</div>
+      <h2 class="part-title">Gradient Descent</h2>
+      <p class="part-question">How does the model actually find weights that minimize loss?</p>
+
+      <h4 class="sub-title">Closed-form solution</h4>
+      <p>If you can take the derivative of the loss, set it to zero, and solve for the weights directly, you get the exact optimal answer in one shot — works for simple models like plain linear regression. For complex models (deep networks, Transformers), the math is often too complicated to solve this way.</p>
+
+      <h4 class="sub-title">Gradient descent (iterative)</h4>
+      <div class="story">
+        <div class="story-icon">🌄</div>
+        <div>
+          <h5>The foggy hillside analogy</h5>
+          <p>You're on a hillside in thick fog, trying to reach the valley floor. You can't see the whole landscape, but you can feel which direction is downhill from where you're standing. Take a small step downhill, feel again, repeat.</p>
+        </div>
+      </div>
+      <div class="formula">new_weight = old_weight − (learning_rate × gradient_of_loss)</div>
+      <p>Repeat this update over and over — loss should shrink a little each time, until the gradient is essentially zero (a low point reached).</p>
+
+      <h4 class="sub-title">The learning rate problem</h4>
+      <div class="compare">
+        <div class="box"><h5>Too large</h5><p>You overshoot the minimum, bounce around, or the loss can even "explode" and get worse.</p></div>
+        <div class="box"><h5>Too small</h5><p>Training crawls forward extremely slowly, and can get permanently stuck in a shallow local minimum.</p></div>
+      </div>
+      <p>Imagine several valleys of different depths on your hiking trail: tiny steps might settle you into a shallow valley near your start and you'd never find the deep one elsewhere; huge steps might jump right over the deep valley into a random shallow one. The learning rate needs tuning — it's a <strong>hyperparameter.</strong></p>
+
+      <h3 class="setup-title">Two kinds of "parameters"</h3>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Learnable weight</td><td>Found automatically during training</td><td>Slope/intercept in Y = WX</td></tr>
+            <tr><td>Hyperparameter</td><td>Chosen by you, before/around training</td><td>Learning rate, iterations, k in k-means</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 09 -->
+    <section class="part fade-in" id="data-challenges">
+      <div class="part-eyebrow">Section 09</div>
+      <h2 class="part-title">Data Challenges</h2>
+      <p class="part-question">A model is "only as good as its data" — the real-world messiness every dataset has.</p>
+
+      <h4 class="sub-title">Missing data</h4>
+      <p>A form asking for both "birth date" and "death date" — for a living person, death date is blank, and that's expected, not an error. Never just delete rows — data is precious. Fix instead with:</p>
+      <ul class="tidy">
+        <li><strong>Mean imputation</strong> — replace with the column's average</li>
+        <li><strong>Median imputation</strong> — replace with the middle value (robust to outliers)</li>
+        <li><strong>Nearest-neighbor imputation</strong> — fill based on the most similar other row</li>
+      </ul>
+
+      <h4 class="sub-title">Errors vs. Artifacts</h4>
+      <div class="compare">
+        <div class="box">
+          <h5>Errors</h5>
+          <p>Natural, unavoidable noise during acquisition — camera noise in low light. Generally can't be fixed; inherent to the sensor/environment.</p>
+        </div>
+        <div class="box">
+          <h5>Artifacts</h5>
+          <p>Systematic human mistakes — merging US/EU/India finance data without unifying currencies. <strong>Fixable</strong> — you introduced it, you can catch it.</p>
+        </div>
+      </div>
+      <p><strong>Beginner takeaway:</strong> errors destroy information; artifacts create false information. Errors are noise to tolerate — artifacts are mistakes to actively hunt down.</p>
+
+      <h4 class="sub-title">Outliers</h4>
+      <p>A point that deviates dramatically from the norm (one huge international-trip charge among months of routine grocery spending). Because loss functions sum error across every point equally, a single extreme outlier can drag an entire fitted line away from where it should sensibly sit.</p>
+      <h3 class="setup-title">Identifying outliers (IQR method)</h3>
+      <div class="formula">Q1 = 25th percentile,  Q3 = 75th percentile
+IQR = Q3 − Q1
+Lower bound = Q1 − 1.5 × IQR
+Upper bound = Q3 + 1.5 × IQR
+→ anything outside [lower, upper] is an outlier</div>
+      <p>Rather than deleting outliers (shrinking valuable data), a common fix is replacing them with the column's <strong>median</strong> — median resists distortion by extreme values, unlike the mean (in <code class="inline">{2,2,2,2,3,3,3,1000000}</code>, the mean is wildly skewed; the median stays sensible).</p>
+
+      <h4 class="sub-title">The Curse of Dimensionality</h4>
+      <p>As you add more features (dimensions), you need <em>exponentially</em> more data to avoid "blind spots" — regions of feature space with no data at all. The same number of points looks densely packed in 1D, but scattered with visible gaps once plotted in 2D or 3D.</p>
+      <p><strong>Evidence cited:</strong> MNIST (small 28×28 grayscale digit images) needed ~60,000 training images; CIFAR-10 (larger, more complex 32×32 color images, still 10 classes) needed considerably more — precisely because higher dimensions have more empty space to cover.</p>
+      <div class="idea">
+        <div class="idea-label">Practical implication</div>
+        <p>For a loan model with income, expense, savings — adding <code class="inline">3 × income</code> as a 4th feature adds zero new information (fully predictable from income already), while making the dimensionality problem worse for no benefit. Keep dimensionality as low as the problem allows.</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 10 -->
+    <section class="part fade-in" id="model-challenges">
+      <div class="part-eyebrow">Section 10</div>
+      <h2 class="part-title">Model Challenges</h2>
+
+      <h4 class="sub-title">Overfitting vs. Underfitting</h4>
+      <div class="story">
+        <div class="story-icon">🐘</div>
+        <div>
+          <h5>The von Neumann–Fermi story</h5>
+          <p>Physicist Fermi excitedly showed his mentor von Neumann a 20-parameter model that fit his data with zero error. Von Neumann, unimpressed, replied (paraphrased): <em>"With four parameters I can fit an elephant, and with five I can make it wiggle its trunk."</em></p>
+          <p>A complex-enough model can fit <em>any</em> training data perfectly — including all its noise — without learning anything real about the underlying pattern.</p>
+        </div>
+      </div>
+      <div class="compare three">
+        <div class="box"><h5>Case 1 — too simple</h5><p>A straight line that misses the data's actual curve. <strong>Underfitting.</strong></p></div>
+        <div class="box"><h5>Case 2 — moderate</h5><p>Captures the general trend without chasing every wiggle. <strong>Good fit.</strong></p></div>
+        <div class="box"><h5>Case 3 — too complex</h5><p>Passes through every training point perfectly, but fails badly on new data. <strong>Overfitting.</strong></p></div>
+      </div>
+      <div class="idea">
+        <div class="idea-label">Core lesson</div>
+        <p>Fitting the training data perfectly does not guarantee good performance on new data. The whole point of training is to perform well on data the model has <em>never seen</em> — not to memorize the training set.</p>
+      </div>
+
+      <h4 class="sub-title">Train / Validation / Test, and Cross-Validation</h4>
+      <p>Standard split: 80% training, 20% held-out testing (never touched during training). But training loss keeps dropping the longer you train — even into overfitting territory. A <strong>validation set</strong>, carved from the training portion, catches this in real time: when validation error starts <em>rising</em> while training error keeps falling, that's overfitting beginning — often used as a signal to stop training early.</p>
+      <h3 class="setup-title">K-fold cross-validation</h3>
+      <ol class="tidy">
+        <li>Split training data into <code class="inline">k</code> equal folds (e.g., 10)</li>
+        <li>Train on 9 folds, validate on the 1 remaining fold</li>
+        <li>Repeat 10 times, using a different fold as validation each round</li>
+        <li>Every data point gets used for both training and validation — never at the same time, so no data is wasted</li>
+      </ol>
+
+      <h4 class="sub-title">Inductive Bias</h4>
+      <div class="story">
+        <div class="story-icon">🦆</div>
+        <div>
+          <h5>Squirrel, duck, eagle</h5>
+          <p>A squirrel climbs trees brilliantly but can't swim or fly. A duck swims brilliantly. An eagle catches flying prey brilliantly. None is "better" overall — each is suited to a specific task.</p>
+        </div>
+      </div>
+      <p>Every model architecture has built-in assumptions about what patterns it's good at finding — its <strong>inductive bias</strong>.</p>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Model</th><th>Strength</th><th>Good for</th></tr></thead>
+          <tbody>
+            <tr><td>CNN</td><td>Nearby pixels are related — local patterns</td><td>Vision: deblurring, segmentation</td></tr>
+            <tr><td>Transformer</td><td>Connects distant/related pieces of info</td><td>Language, image captioning/Q&amp;A</td></tr>
+            <tr><td>RNN</td><td>Processes sequences step-by-step</td><td>Sequential/time-dependent data</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Beginner takeaway:</strong> there's no universally "best" model — you match a model's inductive bias to your problem's structure, the same way you'd send a duck, not a squirrel, to fetch something from a lake.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 11 -->
+    <section class="part fade-in" id="evaluation">
+      <div class="part-eyebrow">Section 11</div>
+      <h2 class="part-title">Evaluating a Model Properly</h2>
+      <p class="part-question">If 80 of 100 tumors are benign and a model predicts "benign" for everything, it scores 80% accuracy — while catching zero actual cancers.</p>
+      <p>This is <strong>class imbalance</strong>, and exactly why accuracy alone isn't trustworthy.</p>
+
+      <h4 class="sub-title">The Confusion Matrix</h4>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th></th><th>Actually Positive</th><th>Actually Negative</th></tr></thead>
+          <tbody>
+            <tr><td>Predicted Positive</td><td>True Positive (TP)</td><td>False Positive (FP)</td></tr>
+            <tr><td>Predicted Negative</td><td>False Negative (FN)</td><td>True Negative (TN)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Memory trick:</strong> the first word tells you if the model was correct; the second tells you what it predicted.</p>
+
+      <h4 class="sub-title">Why the "dangerous" mistake depends on the problem</h4>
+      <div class="story">
+        <div class="story-icon">🏃</div>
+        <div>
+          <h5>Judge for a running race</h5>
+          <p>A sprint and a marathon are both "races," but you'd never judge them the same way. Not every classification problem should be evaluated the same way either — it depends on which mistake costs more.</p>
+        </div>
+      </div>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Scenario</th><th>Dangerous mistake</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Cancer diagnosis</td><td>False Negative</td><td>Telling a sick patient "you're healthy" means no treatment — far worse than a false alarm</td></tr>
+            <tr><td>Anti-missile system</td><td>False Positive</td><td>Firing on a domestic aircraft mistaken for an enemy is catastrophic</td></tr>
+            <tr><td>Weather app</td><td>Roughly equal</td><td>Missing a rainy day and missing a nice day are both just annoying</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 class="sub-title">The four core metrics</h4>
+      <div class="formula">Accuracy  = (TP + TN) / (TP + TN + FP + FN)
+Precision = TP / (TP + FP)   → "when I said positive, how often was I right?"
+Recall    = TP / (TP + FN)   → "of all actual positives, how many did I catch?"
+F1 Score  = harmonic mean of Precision and Recall</div>
+      <div class="idea blue">
+        <div class="idea-label">Choosing the right metric</div>
+        <p>Prioritize <strong>precision</strong> when false positives are costly (anti-missile — don't cry wolf). Prioritize <strong>recall</strong> when false negatives are costly (cancer screening — don't miss a real case). Use a weighted F1 if you need a blend leaning one way.</p>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 12 -->
+    <section class="part wide fade-in" id="flavors">
+      <div class="part-eyebrow">Section 12</div>
+      <h2 class="part-title">The Three Flavors of Machine Learning</h2>
+
+      <div class="compare three">
+        <div class="box">
+          <h5>Supervised</h5>
+          <p>Labeled input-output pairs. The loss function tells the model exactly how wrong each prediction was, every time. (Sections 5–11 all describe this.)</p>
+        </div>
+        <div class="box">
+          <h5>Unsupervised</h5>
+          <p>No labels at all — the model finds structure (clusters, associations) purely from similarity in the data.</p>
+        </div>
+        <div class="box">
+          <h5>Reinforcement</h5>
+          <p>No labels, but a reward/outcome signal — learning a whole sequence of decisions, evaluated only at the end.</p>
+        </div>
+      </div>
+
+      <div class="story">
+        <div class="story-icon">🌸</div>
+        <div>
+          <h5>Unsupervised — the flower show</h5>
+          <p>Kids at a flower exhibition, given no names for anything, naturally group similar-looking flowers together and separate different ones — without anyone correcting them. This is <strong>clustering</strong>: grouping alike data, without ever being told the correct groups.</p>
+        </div>
+      </div>
+      <div class="story">
+        <div class="story-icon">🛒</div>
+        <div>
+          <h5>Unsupervised — grocery association</h5>
+          <p>Working a month in a store, you notice: bread-buyers tend to buy butter and jam; biscuit-buyers tend to buy chips. Nobody labeled these relationships — you inferred them from repeated co-occurrence. This is <strong>association</strong> (the classic "customers who bought X also bought Y").</p>
+        </div>
+      </div>
+      <div class="story">
+        <div class="story-icon">🛝</div>
+        <div>
+          <h5>Reinforcement — the playground</h5>
+          <p>A child at a playground isn't told the "correct" path to the slide. They explore multiple routes, hit crowds, try alternates, and eventually find an efficient way — learning a whole <em>sequence</em> of decisions, not a single right/wrong answer.</p>
+        </div>
+      </div>
+      <p><strong>Chess analogy:</strong> a seemingly "dumb" intermediate move might be a deliberate sacrifice — you can't judge any single move in isolation, only the full sequence by whether the game was won. If the outcome is a win, that whole sequence ("policy") gets reinforced as good.</p>
+
+      <h3 class="setup-title">Quick comparison</h3>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th></th><th>Supervised</th><th>Unsupervised</th><th>Reinforcement</th></tr></thead>
+          <tbody>
+            <tr><td>Labels?</td><td>Yes, every example</td><td>None at all</td><td>None, but a reward signal</td></tr>
+            <tr><td>Feedback</td><td>Immediate, every prediction</td><td>Model finds structure itself</td><td>Delayed — after a full sequence</td></tr>
+            <tr><td>Example</td><td>Spam vs. not spam</td><td>Group customers by similarity</td><td>Train an agent to win at chess</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 13 -->
+    <section class="part wide fade-in" id="case-study">
+      <div class="part-eyebrow">Section 13 · Hands-On</div>
+      <h2 class="part-title">Case Study: Breast Cancer Classification</h2>
+      <p class="part-question">The live coding demo, reorganized into the standard ML workflow.</p>
+      <p>Roughly 1 in 8 women face a lifetime risk of invasive breast cancer — the real, high-stakes motivation for this classifier, built from scratch on a real diagnostic dataset.</p>
+
+      <h3 class="setup-title">Exploratory Data Analysis</h3>
+      <div class="step"><div class="step-num">1</div><div><h4>Load and inspect</h4><p>569 samples, 32 original columns. The <code class="inline">ID</code> column is a unique identifier with zero predictive value — dropped immediately.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4>Check scale differences</h4><p><code class="inline">df.describe()</code> shows wildly different ranges across columns (radius_mean maxes ~28; area_mean maxes ~2501) — an early signal that scaling will be needed.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4>Check missing values, duplicates, and class balance</h4><p>31 numeric features + 1 categorical target, zero missing values, zero duplicates. Class split: ~62.7% benign vs. ~37.3% malignant — moderately imbalanced, which is exactly why accuracy alone won't be trusted later.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h4>Univariate analysis and outlier detection</h4><p>Histograms reveal skewed distributions; box plots (IQR method) reveal a substantial number of outliers across many columns.</p></div></div>
+
+      <h3 class="setup-title">Preprocessing</h3>
+      <div class="idea">
+        <div class="idea-label">Golden rule</div>
+        <p>Split into train/test <em>before</em> applying any transformation. Computing statistics (mean, median, scaling parameters) on the full dataset lets test-set information leak into training — inflating results in a way that won't hold up in real deployment.</p>
+      </div>
+      <div class="step"><div class="step-num">1</div><div><h4>Separate features and target, encode labels</h4><p>Malignant → <code class="inline">+1</code>, benign → <code class="inline">−1</code> — models need numbers, not text.</p></div></div>
+      <div class="step"><div class="step-num">2</div><div><h4>80/20 train/test split</h4><p><code class="inline">random_state=42</code> makes the split reproducible; <code class="inline">stratify=y</code> preserves the ~63/37 class ratio in both sets, so an unlucky split can't dump most malignant cases into just one side.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h4>Handle outliers</h4><p>Replaced with the column median (computed excluding the outliers themselves). <strong>Measured impact:</strong> accuracy rose from <strong>95.6% → 98.2%</strong> after this single fix.</p></div></div>
+      <div class="step"><div class="step-num">4</div><div><h4>Handle missing values and scale</h4><p><code class="inline">SimpleImputer(strategy='median')</code> and <code class="inline">StandardScaler</code> — both use <code class="inline">.fit_transform()</code> on training data only, and <code class="inline">.transform()</code> (reusing training statistics) on test data, to prevent data leakage.</p></div></div>
+      <div class="step"><div class="step-num">5</div><div><h4>Remove highly correlated features</h4><p>Features with correlation &gt; 0.9 (e.g., radius_mean and perimeter_mean — a bigger radius mechanically implies a bigger perimeter) have one of the pair dropped. 30 features reduced to 20 — directly fighting the curse of dimensionality.</p></div></div>
+
+      <h3 class="setup-title">Training — two approaches, same model</h3>
+      <div class="formula">Y = W0 + W1·X1 + W2·X2 + ... + Wn·Xn</div>
+      <div class="compare">
+        <div class="box"><h5>Closed-form</h5><p>Solves directly via <code class="inline">XᵀXW = XᵀY</code> — the exact optimal solution in one shot, no iteration.</p></div>
+        <div class="box"><h5>Gradient descent</h5><p>Iteratively updates weights via <code class="inline">W_new = W_old − lr × gradient</code>, repeated across many iterations.</p></div>
+      </div>
+      <p>The linear equation produces a continuous score; a <strong>threshold</strong> converts it to a class — score &gt; 0 → malignant, score &lt; 0 → benign (threshold is 0 here specifically because classes were encoded ±1; it would be 0.5 for a 0/1 encoding).</p>
+
+      <h3 class="setup-title">Learning rate, tested live</h3>
+      <div class="compare three">
+        <div class="box"><h5>0.115 — too large</h5><p>Looks like it's converging, then the loss suddenly <strong>explodes</strong>.</p></div>
+        <div class="box"><h5>0.001 — too small</h5><p>Barely moves even after 100 iterations.</p></div>
+        <div class="box"><h5>0.01 — well-tuned</h5><p>Training and validation loss decrease smoothly together — neither under- nor overfitting.</p></div>
+      </div>
+
+      <p>Cross-validation used <strong>Stratified K-Fold</strong> specifically, so every fold preserves the ~63/37 class balance. Both training approaches were evaluated with accuracy, precision, recall, and F1 — and converged to very similar performance, since they solve the same underlying linear model via two different mathematical routes.</p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- 14 -->
+    <section class="part wide fade-in" id="glossary">
+      <div class="part-eyebrow">Section 14</div>
+      <h2 class="part-title">Glossary — Quick Lookup</h2>
+      <div class="ref-wrap">
+        <table class="ref">
+          <thead><tr><th>Term</th><th>Plain-English meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Feature (X)</td><td>The known information you feed the model</td></tr>
+            <tr><td>Target (Y)</td><td>The correct answer you want the model to predict</td></tr>
+            <tr><td>Weight (W)</td><td>A learnable number the model adjusts during training</td></tr>
+            <tr><td>Hyperparameter</td><td>A setting you choose before/around training (learning rate, k)</td></tr>
+            <tr><td>Loss function</td><td>A number measuring how wrong a prediction is</td></tr>
+            <tr><td>Gradient descent</td><td>The iterative "take a small downhill step" method of reducing loss</td></tr>
+            <tr><td>Learning rate</td><td>How big each gradient descent step is</td></tr>
+            <tr><td>Local minimum</td><td>A "good enough" dip that isn't the actual best (global) minimum</td></tr>
+            <tr><td>Overfitting</td><td>Memorizes training data (incl. noise) but fails on new data</td></tr>
+            <tr><td>Underfitting</td><td>Too simple to capture even the real pattern</td></tr>
+            <tr><td>Cross-validation</td><td>Reusing all training data for both training and validation, in rounds</td></tr>
+            <tr><td>Inductive bias</td><td>The built-in assumptions/strengths of a model architecture</td></tr>
+            <tr><td>Outlier</td><td>A data point wildly different from the rest</td></tr>
+            <tr><td>Error vs. Artifact</td><td>Unavoidable natural noise vs. a fixable, human-caused mistake</td></tr>
+            <tr><td>Curse of dimensionality</td><td>More features need exponentially more data to avoid blind spots</td></tr>
+            <tr><td>Confusion matrix</td><td>The table comparing predicted vs. actual classes</td></tr>
+            <tr><td>Precision / Recall</td><td>"How often right when positive" / "how many actual positives caught"</td></tr>
+            <tr><td>Data leakage</td><td>Test-set info accidentally influencing training</td></tr>
+            <tr><td>Supervised / Unsupervised / RL</td><td>Learn from labels / find structure with no labels / learn from delayed reward</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="closing fade-in" id="takeaways">
+      <div class="part-eyebrow">Section 15</div>
+      <h2 class="part-title">Key Takeaways</h2>
+      <ol class="tidy">
+        <li><strong>AI is a tool for problems where writing explicit rules is impossible or impractical</strong> — not a replacement for rules when rules would actually work fine.</li>
+        <li>Every supervised model, however complex, is really just: <strong>collect labeled data → design a model shape → define a loss → optimize the weights</strong> — the same four steps, at massive scale, for something like ChatGPT.</li>
+        <li><strong>Data quality usually matters more than model choice</strong> — missing values, outliers, artifacts, imbalance, and correlated features can all quietly sabotage a model. "A model is as good as its data."</li>
+        <li><strong>Never evaluate a classifier with accuracy alone</strong> — always ask which mistake (false positive or false negative) is more costly for your specific problem.</li>
+        <li><strong>Fitting the training data perfectly is not the goal — generalizing to new data is.</strong> Validation, cross-validation, and right-sized models all exist to protect against overfitting.</li>
+      </ol>
+      <div class="idea success">
+        <div class="idea-label">A note on these notes</div>
+        <p>Reorganized from a live lecture transcript for clarity — the analogies (the kid learning colors, the postal-code digits, the squirrel and the duck, von Neumann's elephant) are preserved because they carry real pedagogical weight, not just color commentary.</p>
+      </div>
+    </section>
+
+    <footer>
+      intro.to_ml() — reorganized lecture notes.<br>
+      built for reading slowly.
+    </footer>
+  </main>
+</div>
+
+<script>
+const navToggle = document.getElementById('navToggle');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+function closeNav(){ sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+navToggle.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('show'); });
+overlay.addEventListener('click', closeNav);
+document.querySelectorAll('#navlist a').forEach(a => a.addEventListener('click', closeNav));
+
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = document.querySelectorAll('#navlist a');
+function setActive(id){ navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id)); }
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if(entry.isIntersecting){ setActive(entry.target.id); } });
+}, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+sections.forEach(s => spyObserver.observe(s));
+
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){ entry.target.classList.add('visible'); fadeObserver.unobserve(entry.target); }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+</script>
+
+</body>
+</html>
